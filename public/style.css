@@ -1,0 +1,40 @@
+$primary: #11998e;
+$secondary: #38ef7d;
+$white: #fff;
+$gray: #9b9b9b;
+
+.registrationfields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: baseline;
+    bottom: 0;
+}
+.registerfield {
+    margin-top: 20px;
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid $gray;
+    outline: 0;
+    font-size: 1.3rem;
+    color: $white;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    &::placeholder {
+        color: transparent;
+    }
+}
+
+.submit-btn-register {
+    margin-top: 25px;
+}
+
+.error {
+    font-weight: bold;
+    color: red;
+}
+/* .register {
+    background-color:
+} */

@@ -1,13 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Welcome from "./Welcome";
+import Loggedin from "./Loggedin";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
+console.log("hi!");
 
-function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
+let elem;
+if (location.pathname == "/welcome") {
+    elem = <Welcome />;
+} else {
+    // elem = <img src="guinea.jpg"></img>; //change this later so they see more
+    elem = <Loggedin />;
 }
+ReactDOM.render(elem, document.querySelector("main"));
