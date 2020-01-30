@@ -17,7 +17,8 @@ const {
     findIdByEmail,
     storeCode,
     getCode,
-    newPassword
+    newPassword,
+    userDetails
 } = require("./db");
 const cookieSession = require("cookie-session");
 const { hash } = require("./bcrypt");
@@ -244,21 +245,39 @@ app.post("/newpass", (req, res) => {
             };
         }
     });
-
-    //     () =>
-    //         res.json({
-    //             success: true
-    //         });
-    //     console.log(res).catch(err => console.log(err));
-    // } else {
-    //     data => {
-    //         console.log("im in the else");
-    //         data.json({
-    //             success: false
-    //         });
-    //     };
-    // }
 });
+app.get("/user", (req, res) => {
+    console.log("************get USER*****************");
+    // var body = req.body;
+    var session = req.session;
+    console.log("session", session);
+    userDetails(req.session.userId)
+        .then(results => {
+            console.log(results.rows);
+            res.json({
+                first: results.rows[0].first,
+                last: results.rows[0].last,
+                id: results.rows[0].id,
+                email: results.rows[0].email
+            });
+        })
+
+        .catch(err => console.log(err));
+});
+
+//     () =>
+//         res.json({
+//             success: true
+//         });
+//     console.log(res).catch(err => console.log(err));
+// } else {
+//     data => {
+//         console.log("im in the else");
+//         data.json({
+//             success: false
+//         });
+//     };
+// }
 
 app.get("*", function(req, res) {
     if (!req.session.userId) {

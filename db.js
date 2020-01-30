@@ -47,3 +47,7 @@ exports.newPassword = function(email, pass) {
         pass
     ]);
 };
+
+exports.userDetails = function(id) {
+    return db.query("SELECT * FROM users WHERE id = $1", [id]);
+};

@@ -12,7 +12,63 @@ $gray: #9b9b9b;
 }
 
 .registrationfields a {
-    background-color: hotpink;
+    background: rgba(203, 96, 179, 1);
+    background: -moz-linear-gradient(
+        left,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
+    background: -webkit-gradient(
+        left top,
+        right top,
+        color-stop(0%, rgba(203, 96, 179, 1)),
+        color-stop(0%, rgba(219, 54, 164, 1)),
+        color-stop(0%, rgba(193, 70, 161, 1)),
+        color-stop(27%, rgba(154, 99, 152, 1)),
+        color-stop(58%, rgba(110, 133, 142, 1)),
+        color-stop(100%, rgba(50, 179, 129, 1))
+    );
+    background: -webkit-linear-gradient(
+        left,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
+    background: -o-linear-gradient(
+        left,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
+    background: -ms-linear-gradient(
+        left,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
+    background: linear-gradient(
+        to right,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', endColorstr='#32b381', GradientType=1 );
     margin-left: 20px;
 }
 .registerfield {
@@ -46,4 +102,19 @@ $gray: #9b9b9b;
 
 .innerLink {
     background-color: green;
+}
+
+.logotop {
+    max-height: 100px;
+}
+.logotop:hover {
+    background: linear-gradient(
+        to right,
+        rgba(203, 96, 179, 1) 0%,
+        rgba(219, 54, 164, 1) 0%,
+        rgba(193, 70, 161, 1) 0%,
+        rgba(154, 99, 152, 1) 27%,
+        rgba(110, 133, 142, 1) 58%,
+        rgba(50, 179, 129, 1) 100%
+    );
 }
