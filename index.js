@@ -11,10 +11,30 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const helmet = require("helmet");
-const { addUser, findPassword, findIdByEmail } = require("./db");
+const {
+    addUser,
+    findPassword,
+    findIdByEmail,
+    storeCode,
+    getCode,
+    newPassword
+} = require("./db");
 const cookieSession = require("cookie-session");
-const { hash, comapre } = require("./bcrypt");
+const { hash } = require("./bcrypt");
 const bcrypt = require("./bcrypt");
+const cryptoRandomString = require("crypto-random-string");
+const aws = require("aws-sdk");
+let secrets;
+if (process.env.NODE_ENV == "production") {
+    secrets = process.env; // in prod the secrets are environment variables
+} else {
+    secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
+}
+const ses = new aws.SES({
+    accessKeyId: secrets.AWS_KEY,
+    secretAccessKey: secrets.AWS_SECRET,
+    region: "us-east-1"
+});
 
 // const csurf = require("csurf");
 app.use(express.json());
@@ -94,6 +114,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
     console.log("*************************POST LOGIN*************************");
     var body = req.body;
+    console.log("116", body);
     if (body.email.length !== 0 && body.password.length !== 0) {
         findPassword(body.email, body.password)
             .then(results => {
@@ -135,6 +156,108 @@ app.post("/login", (req, res) => {
             oops
         });
     }
+});
+
+app.post("/forgotpass", (req, res) => {
+    console.log(
+        "*************************POST forgotpass*************************"
+    );
+    var body = req.body;
+    console.log("149", body);
+    findIdByEmail(body.email).then(results => {
+        console.log(" 151 results.rows", results.rows.length);
+        if (results.rows.length === 0) {
+            console.log("Email isnt in the system!");
+            res.json({
+                success: false
+            });
+        } else {
+            const secretCode = cryptoRandomString({
+                length: 6
+            });
+            console.log("secretCode", secretCode);
+
+            storeCode(body.email, secretCode).then(data => {
+                console.log("data,160", data);
+                ses.sendEmail({
+                    Source: "Coding camp <dganite@gmail.com>",
+                    Destination: {
+                        ToAddresses: ["dganite+ses@gmail.com"]
+                    },
+                    Message: {
+                        Body: {
+                            Text: {
+                                Data:
+                                    "please reset your Email. your code is " +
+                                    secretCode +
+                                    ". Please click go to http://localhost:8080/newpass to activate your code."
+                            }
+                        },
+                        Subject: {
+                            Data: "Your Application Has Been Accepted!"
+                        }
+                    }
+                })
+                    .promise()
+                    .then(
+                        () => console.log("194 it worked!"),
+                        res.json({
+                            success: true
+                        })
+                    )
+                    .catch(err => console.log(err));
+            });
+        }
+    });
+});
+
+app.post("/newpass", (req, res) => {
+    console.log(
+        "*************************POST newpass*************************"
+    );
+    var body = req.body;
+    var session = req.session;
+    console.log("body", body);
+    console.log("session", session);
+    getCode(body.email).then(results => {
+        if (
+            results.rows[0].code === body.passcode &&
+            body.newPass === body.newPassRepeat
+        ) {
+            hash(body.newPass).then(password => {
+                newPassword(body.email, password)
+                    .then(
+                        res.json({
+                            success: true
+                        })
+                    )
+                    .catch(err => console.log(err));
+            });
+        } else if (
+            results.rows[0].code === body.passcode ||
+            body.newPass != body.newPassRepeat
+        ) {
+            res => {
+                res.json({
+                    success: false
+                });
+            };
+        }
+    });
+
+    //     () =>
+    //         res.json({
+    //             success: true
+    //         });
+    //     console.log(res).catch(err => console.log(err));
+    // } else {
+    //     data => {
+    //         console.log("im in the else");
+    //         data.json({
+    //             success: false
+    //         });
+    //     };
+    // }
 });
 
 app.get("*", function(req, res) {

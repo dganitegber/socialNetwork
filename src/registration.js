@@ -101,8 +101,11 @@ export default class Resgistration extends React.Component {
                 >
                     Register now! <i className="fas fa-users"></i>
                 </button>
-                <HashRouter>
+                <HashRouter class="innerLink">
                     <Link to="/login">Login</Link>
+                </HashRouter>
+                <HashRouter>
+                    <Link to="/forgotpass">Forgot Password</Link>
                 </HashRouter>
             </div>
         );

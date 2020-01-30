@@ -3,7 +3,7 @@ import axios from "./axios";
 import { HashRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-export default class Login extends React.Component {
+export default class Newpass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -17,9 +17,8 @@ export default class Login extends React.Component {
         console.log(" ic clicked login");
 
         axios
-            .post("/login", {
-                email: this.state.email,
-                password: this.state.password
+            .post("/newpass", {
+                email: this.state.email
             })
             .then(({ data }) => {
                 if (data.success) {
@@ -27,7 +26,7 @@ export default class Login extends React.Component {
 
                     //it worked
                     console.log("it worked");
-                    location.replace("/welcome");
+                    location.replace("/newpass");
                     console.log("data: ", data);
                 } else {
                     //failure!
@@ -51,29 +50,34 @@ export default class Login extends React.Component {
                 <input
                     className="email registerfield"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Your Email address"
                     onChange={e => this.handleChange(e)}
                 />
                 <input
                     className="password registerfield"
                     name="password"
-                    placeholder="Password"
-                    type="password"
+                    placeholder="Your new password"
+                    onChange={e => this.handleChange(e)}
+                />
+                <input
+                    className="password registerfield"
+                    name="password"
+                    placeholder="Type your password again"
                     onChange={e => this.handleChange(e)}
                 />
                 <button
                     className="submit-btn-register"
                     onClick={e => this.submit(e)}
                 >
-                    Login now! <i className="fas fa-users"></i>
+                    Reset <i className="fas fa-users"></i>
                 </button>
 
                 <HashRouter>
                     <Link to="/" className="register">
                         Register
                     </Link>
-                    <Link to="forgotpass" className="forgotpass">
-                        Forgot Password
+                    <Link to="/login" className="register">
+                        Log in
                     </Link>
                 </HashRouter>
             </div>

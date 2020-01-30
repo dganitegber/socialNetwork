@@ -1,5 +1,7 @@
 import React from "react";
 import Login from "./login";
+import Forgotpass from "./Forgotpass";
+
 import { HashRouter, Route } from "react-router-dom";
 // import Changer from "./changer";
 import Registration from "./registration";
@@ -30,6 +32,7 @@ export default class Welcome extends React.Component {
                     <div>
                         <Route exact path="/" component={Registration} />
                         <Route path="/login" component={Login} />
+                        <Route path="/forgotpass" component={Forgotpass} />
                     </div>
                 </HashRouter>
             </div>

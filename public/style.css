@@ -1,4 +1,4 @@
-$primary: #11998e;
+/* $primary: #11998e; */
 $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
@@ -9,6 +9,11 @@ $gray: #9b9b9b;
     align-items: center;
     align-self: baseline;
     bottom: 0;
+}
+
+.registrationfields a {
+    background-color: hotpink;
+    margin-left: 20px;
 }
 .registerfield {
     margin-top: 20px;
@@ -38,3 +43,7 @@ $gray: #9b9b9b;
 /* .register {
     background-color:
 } */
+
+.innerLink {
+    background-color: green;
+}
