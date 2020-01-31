@@ -9,6 +9,9 @@
 
 const express = require("express");
 const app = express();
+const aws = require("aws-sdk");
+const { s3Url } = require("./config");
+const s3 = require("./s3");
 const compression = require("compression");
 const helmet = require("helmet");
 const {
@@ -18,13 +21,28 @@ const {
     storeCode,
     getCode,
     newPassword,
-    userDetails
+    userDetails,
+    logImages
 } = require("./db");
 const cookieSession = require("cookie-session");
 const { hash } = require("./bcrypt");
 const bcrypt = require("./bcrypt");
 const cryptoRandomString = require("crypto-random-string");
-const aws = require("aws-sdk");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
 let secrets;
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
@@ -35,6 +53,13 @@ const ses = new aws.SES({
     accessKeyId: secrets.AWS_KEY,
     secretAccessKey: secrets.AWS_SECRET,
     region: "us-east-1"
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
 });
 
 // const csurf = require("csurf");
@@ -254,30 +279,47 @@ app.get("/user", (req, res) => {
     userDetails(req.session.userId)
         .then(results => {
             console.log(results.rows);
+            console.log(results.rows[0].profpic);
+            if (results.rows[0].profpic === null) {
+                var picture_url;
+                picture_url = "/profile.png";
+            } else {
+                picture_url = results.rows[0].profpic;
+            }
+            console.log("picture_url", picture_url);
             res.json({
                 first: results.rows[0].first,
                 last: results.rows[0].last,
                 id: results.rows[0].id,
-                email: results.rows[0].email
+                email: results.rows[0].email,
+                picture_url: picture_url
             });
         })
 
         .catch(err => console.log(err));
 });
 
-//     () =>
-//         res.json({
-//             success: true
-//         });
-//     console.log(res).catch(err => console.log(err));
-// } else {
-//     data => {
-//         console.log("im in the else");
-//         data.json({
-//             success: false
-//         });
-//     };
-// }
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log(
+        "*************************POST upload*************************"
+    );
+    const file = req.file;
+    // const body = req.body;
+    let imageUrl = s3Url + file.filename;
+    console.log(file);
+    // console.log("body.id", session.id, body.file.filename);
+    //the url for the image is https://s3.amazonaws.com/:yourBucketName/:filename.
+    console.log("imageurl", imageUrl);
+
+    //after query is successful, send a response
+    console.log("id", req.session.userId);
+    logImages(imageUrl, req.session.userId).then(data => {
+        console.log("data return", data);
+        res.json(data.rows[0].profpic);
+    });
+
+    //unshift() puts an image in the beginning unlike push.
+});
 
 app.get("*", function(req, res) {
     if (!req.session.userId) {

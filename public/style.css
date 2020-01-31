@@ -118,3 +118,52 @@ $gray: #9b9b9b;
         rgba(50, 179, 129, 1) 100%
     );
 }
+
+.profileSmall {
+    max-height: 100px;
+    max-width: 100px;
+    border-radius: 4px;
+}
+
+.largeProfilePic {
+    max-width: 200px;
+    border-radius: 4px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.topBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+
+    border-bottom: 1px solid grey;
+    border-spacing: 15px;
+    -webkit-box-shadow: 7px 10px 18px -3px rgba(138, 75, 138, 1);
+}
+
+.uploader {
+    height: 75%;
+    width: 75%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background: red;
+    box-shadow: 0 0 10px #504bff, 0 0 20px #504bff, 0 0 30px #504bff;
+    transition: all 2.5s ease;
+}
+
+.uploadButton {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}

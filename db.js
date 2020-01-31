@@ -51,3 +51,10 @@ exports.newPassword = function(email, pass) {
 exports.userDetails = function(id) {
     return db.query("SELECT * FROM users WHERE id = $1", [id]);
 };
+
+exports.logImages = function(profpic, id) {
+    return db.query(
+        "UPDATE users SET profpic=$1 WHERE id = $2 RETURNING profpic",
+        [profpic, id]
+    );
+};
