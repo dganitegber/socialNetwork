@@ -293,7 +293,7 @@ app.get("/user", (req, res) => {
             } else {
                 bio = results.rows[0].bio;
             }
-            console.log("picture_url", picture_url);
+            console.log("bio", bio);
 
             res.json({
                 first: results.rows[0].first,

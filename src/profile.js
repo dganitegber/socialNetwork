@@ -1,11 +1,10 @@
 import React from "react";
 // import axios from "./axios";
 import ProfilePic from "./profilepic";
-// import BioEditor from "./BioEditor";
+import BioEditor from "./BioEditor";
 
 export default function Profile(props) {
-    console.log("props from profile", props);
-
+    console.log("props", props);
     return (
         <div className="profileContainer">
             <ProfilePic
@@ -14,9 +13,10 @@ export default function Profile(props) {
                 clickHandler={props.clickHandler}
                 // onClick={e => props.clickHandler(e)}
             />
-            <h3 clickHandler={() => this.setState({ BioEditorVisible: true })}>
+            <p onClick={event => props.clickHandler2(event)}>
                 Tell us something about yourself
-            </h3>
+            </p>
+            <BioEditor />
         </div>
     );
 }

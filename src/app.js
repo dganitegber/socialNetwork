@@ -3,7 +3,7 @@ import axios from "./axios";
 // import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
-import BioEditor from "./BioEditor";
+// import BioEditor from "./BioEditor";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -40,17 +40,21 @@ export default class App extends React.Component {
                         src={this.state.picture_url}
                     />
                 </div>
-                <Profile
-                    picture_url={this.state.picture_url}
-                    className="largeProfilePic"
-                    clickHandler={() =>
-                        this.setState({ uploaderVisible: true })
-                    }
-                />
-                {this.state.uploaderVisible && (
-                    <Uploader updateImgUrl={this.updateImgUrl} />
-                )}{" "}
-                <BioEditor />
+                <div profilbio>
+                    <Profile
+                        picture_url={this.state.picture_url}
+                        className="largeProfilePic"
+                        clickHandler={() =>
+                            this.setState({ uploaderVisible: true })
+                        }
+                        clickHandler2={() =>
+                            this.setState({ BioEditorVisible: true })
+                        }
+                    />
+                    {this.state.uploaderVisible && (
+                        <Uploader updateImgUrl={this.updateImgUrl} />
+                    )}{" "}
+                </div>
             </div>
         );
     }

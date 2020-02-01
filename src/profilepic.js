@@ -2,7 +2,6 @@ import React from "react";
 // import axios from "./axios";
 
 export default function ProfilePic(props) {
-    console.log("props: ", props);
     // const clickHandler = props.clickHandler;
     // const first = props.first;
     // const last = props.last;
