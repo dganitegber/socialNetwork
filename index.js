@@ -22,7 +22,8 @@ const {
     getCode,
     newPassword,
     userDetails,
-    logImages
+    logImages,
+    logBio
 } = require("./db");
 const cookieSession = require("cookie-session");
 const { hash } = require("./bcrypt");
@@ -286,13 +287,21 @@ app.get("/user", (req, res) => {
             } else {
                 picture_url = results.rows[0].profpic;
             }
+            if (results.rows[0].bio === null) {
+                var bio;
+                bio = "";
+            } else {
+                bio = results.rows[0].bio;
+            }
             console.log("picture_url", picture_url);
+
             res.json({
                 first: results.rows[0].first,
                 last: results.rows[0].last,
                 id: results.rows[0].id,
                 email: results.rows[0].email,
-                picture_url: picture_url
+                picture_url: picture_url,
+                bio: bio
             });
         })
 
@@ -313,12 +322,26 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
     //after query is successful, send a response
     console.log("id", req.session.userId);
-    logImages(imageUrl, req.session.userId).then(data => {
-        console.log("data return", data);
-        res.json(data.rows[0].profpic);
-    });
+    logImages(imageUrl, req.session.userId)
+        .then(data => {
+            console.log("data return", data);
+            res.json(data.rows[0].profpic);
+        })
+        .catch(err => console.log(err));
 
     //unshift() puts an image in the beginning unlike push.
+});
+
+app.post("/bio", (req, res) => {
+    console.log("*************************POST bio*************************");
+    var body = req.body;
+    var session = req.session;
+    console.log(res, body, session);
+    logBio(body.bio, session.userId)
+        .then(data => {
+            console.log(data.rows[0]);
+        })
+        .catch(err => console.log(err));
 });
 
 app.get("*", function(req, res) {

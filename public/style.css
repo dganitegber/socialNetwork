@@ -167,3 +167,18 @@ $gray: #9b9b9b;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
+
+.closeModal {
+    position: fixed;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    font-size: 100%;
+    flexz-index: 2;
+}
+
+.modalUploader {
+    display: flex;
+    flex-direction: row;
+}

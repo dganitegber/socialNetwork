@@ -58,3 +58,10 @@ exports.logImages = function(profpic, id) {
         [profpic, id]
     );
 };
+
+exports.logBio = function(bio, id) {
+    return db.query("UPDATE users SET bio=$1 WHERE id = $2 RETURNING bio", [
+        bio,
+        id
+    ]);
+};

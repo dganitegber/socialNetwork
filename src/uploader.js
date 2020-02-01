@@ -7,7 +7,7 @@ export default class Uploader extends React.Component {
         this.state = {};
         this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-        console.log(props);
+        console.log("props from uploader", props);
     }
 
     fileSelectedHandler(e) {
@@ -19,7 +19,7 @@ export default class Uploader extends React.Component {
     }
 
     uploadImage(e) {
-        console.log(this.state);
+        console.log("this state", this.state);
         e.preventDefault();
 
         var formData = new FormData();
@@ -38,7 +38,7 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="modalUploader">
                 <input
                     className="uploader"
                     type="file"
@@ -46,6 +46,12 @@ export default class Uploader extends React.Component {
                     accept="image/*"
                     name="file"
                 />
+                <p
+                    className="closeModal"
+                    onClick={() => this.setState({ uploaderVisible: false })}
+                >
+                    x
+                </p>
                 <button
                     className="uploadButton"
                     onClick={e => this.uploadImage(e)}
