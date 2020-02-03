@@ -275,12 +275,12 @@ app.post("/newpass", (req, res) => {
 app.get("/user", (req, res) => {
     console.log("************get USER*****************");
     // var body = req.body;
-    var session = req.session;
-    console.log("session", session);
+    // var session = req.session;
+    // console.log("session", session);
     userDetails(req.session.userId)
         .then(results => {
-            console.log(results.rows);
-            console.log(results.rows[0].profpic);
+            // console.log(results.rows);
+            // console.log(results.rows[0].profpic);
             if (results.rows[0].profpic === null) {
                 var picture_url;
                 picture_url = "/profile.png";
@@ -293,7 +293,7 @@ app.get("/user", (req, res) => {
             } else {
                 bio = results.rows[0].bio;
             }
-            console.log("bio", bio);
+            // console.log("bio", bio);
 
             res.json({
                 first: results.rows[0].first,
@@ -302,6 +302,27 @@ app.get("/user", (req, res) => {
                 email: results.rows[0].email,
                 picture_url: picture_url,
                 bio: bio
+            });
+        })
+
+        .catch(err => console.log(err));
+});
+app.get("/otheruser/:id", (req, res) => {
+    console.log("************get OTHER USER*****************");
+    // var body = req.body;
+    console.log("req.params.id", req.params.id);
+    userDetails(req.params.id)
+        .then(results => {
+            console.log(results.rows[0]);
+            // console.log("bio", bio);
+
+            res.json({
+                first: results.rows[0].first,
+                last: results.rows[0].last,
+                id: results.rows[0].id,
+                email: results.rows[0].email,
+                profpic: results.rows[0].profpic,
+                bio: results.rows[0].bio
             });
         })
 

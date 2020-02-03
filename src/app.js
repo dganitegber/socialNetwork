@@ -46,7 +46,6 @@ export default class App extends React.Component {
                     <div className="topBar">
                         <img className="logotop" src="/logo.png" alt="Logo" />
                         <p className="welcome">
-                            {" "}
                             Welcome back, {this.state.first}!
                         </p>
                         <img
@@ -55,16 +54,24 @@ export default class App extends React.Component {
                         />
                     </div>
                     <div className="profilbio">
-                        <Profile
-                            bio={this.state.bio}
-                            picture_url={this.state.picture_url}
-                            className="largeProfilePic"
-                            clickHandler={() =>
-                                this.setState({ uploaderVisible: true })
-                            }
-                            clickHandler2={() =>
-                                this.setState({ bioEditorVisible: true })
-                            }
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    bio={this.state.bio}
+                                    picture_url={this.state.picture_url}
+                                    className="largeProfilePic"
+                                    clickHandler={() =>
+                                        this.setState({ uploaderVisible: true })
+                                    }
+                                    clickHandler2={() =>
+                                        this.setState({
+                                            bioEditorVisible: true
+                                        })
+                                    }
+                                />
+                            )}
                         />
                         <Route
                             exact
