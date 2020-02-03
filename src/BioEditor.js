@@ -5,7 +5,7 @@ import axios from "./axios"; //from now on always require the copy of axios from
 export default class BioEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { BioEditorVisible: false };
+        this.state = {};
 
         this.handleChange = this.handleChange.bind(this);
         this.postBio = this.postBio.bind(this);
@@ -16,50 +16,65 @@ export default class BioEditor extends React.Component {
         console.log("this.state", this.state);
         console.log(this.state.bio);
     }
-    updateBio(img) {
-        console.log("this state", this.state);
-        console.log("image", img);
-        this.setState({ picture_url: img, uploaderVisible: false });
-    }
-
     handleChange(e) {
         this.setState({
             value: e.target.value
         });
     }
+    editBio(e) {
+        e.preventDefault();
 
-    postBio() {
-        event.preventDefault();
-
-        axios.post("/bio", {
-            bio: this.state.value
+        this.setState({
+            bioEditorVisible: true
         });
     }
 
+    postBio(e) {
+        e.preventDefault();
+        axios
+            .post("/bio", {
+                bio: this.state.value
+            })
+            .then(data => {
+                this.setState({ bio: data.data, bioEditorVisible: false });
+            });
+    }
+
     render() {
+        console.log("this state", this.state);
         return (
-            <div>
-                <div clasdNam="myBio"></div>
-                {this.state.bio}
+            <div className="bioeditor">
+                {this.state.bioEditorVisible != true && (
+                    <div className="myBio">{this.state.bio}</div>
+                )}{" "}
                 <div className="BioEditor">
-                    {this.state.BioEditorVisible == true && (
-                        <form>
-                            <textarea
-                                value={this.state.value}
-                                onChange={e => this.handleChange(e)}
-                            />
-                            <submit
-                                name="bio"
-                                rows="10"
-                                cols="10"
-                                onClick={e => this.postBio(e)}
-                            >
-                                {" "}
-                                submit{" "}
-                            </submit>
-                        </form>
-                    )}
+                    {
+                        (!this.props.bio,
+                        this.state.bioEditorVisible === true && (
+                            <form>
+                                <p>Tell us something about yourself</p>
+                                <textarea
+                                    onChange={e => this.handleChange(e)}
+                                    name="bio"
+                                    rows="10"
+                                    cols="50"
+                                    placeholder={this.state.bio}
+                                />
+
+                                <submit onClick={e => this.postBio(e)}>
+                                    {" "}
+                                    submit{" "}
+                                </submit>
+                            </form>
+                        ))
+                    }{" "}
                 </div>
+                {this.state.bioEditorVisible != true && (
+                    <button className="editBio" onClick={e => this.editBio(e)}>
+                        {" "}
+                        edit bio{" "}
+                    </button>
+                )}
             </div>
         );
     }

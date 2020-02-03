@@ -7,7 +7,7 @@ export default function ProfilePic(props) {
     // const last = props.last;
 
     return (
-        <div>
+        <div className="largeProfilePic">
             <img
                 src={props.picture_url}
                 className="largeProfilePic"

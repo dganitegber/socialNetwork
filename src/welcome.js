@@ -13,7 +13,8 @@ export default class Welcome extends React.Component {
             firstname: "",
             lastname: "",
             password: "",
-            email: ""
+            email: "",
+            bio: ""
         };
     }
     render() {

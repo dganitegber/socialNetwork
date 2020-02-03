@@ -336,12 +336,17 @@ app.post("/bio", (req, res) => {
     console.log("*************************POST bio*************************");
     var body = req.body;
     var session = req.session;
-    console.log(res, body, session);
+    console.log(body, session);
     logBio(body.bio, session.userId)
         .then(data => {
-            console.log(data.rows[0]);
+            res.json(data.rows[0].bio);
         })
         .catch(err => console.log(err));
+});
+app.get("/api/user/:id", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    }
 });
 
 app.get("*", function(req, res) {
