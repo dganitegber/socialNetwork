@@ -5,6 +5,13 @@
 //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 //
 // );
+//
+// CREATE TABLE friends(
+//     asked_by VARCHAR NOT NULL,
+//     asked_to VARCHAR NOT NULL,
+//     recieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//
+// )
 
 const spicedPg = require("spiced-pg");
 const db = spicedPg(
@@ -41,6 +48,10 @@ exports.getCode = function(email) {
     );
 };
 
+exports.getLastUsers = function() {
+    return db.query("SELECT * FROM users ORDER BY id desc limit 3");
+};
+
 exports.newPassword = function(email, pass) {
     return db.query("UPDATE users SET password = $2 WHERE email = $1", [
         email,
@@ -64,4 +75,28 @@ exports.logBio = function(bio, id) {
         bio,
         id
     ]);
+};
+
+exports.getUsersByTyping = function(val) {
+    return db
+        .query(
+            `SELECT first, last, id, profpic, bio FROM users WHERE first ILIKE $1 ORDER BY ID DESC;`,
+            [val + "%"]
+        )
+        .then(({ rows }) => {
+            return rows;
+        });
+};
+exports.getFriendship = function(userId, otherId) {
+    return db.query(
+        "SELECT recieved_at FROM friends where asked_by=$1 AND asked_to = $2",
+        [userId, otherId]
+    );
+};
+
+exports.addFriend = function(userId, otherId) {
+    return db.query(
+        "INSERT INTO friends (asked_by, asked_to) VALUES ($1, $2) RETURNING asked_by",
+        [userId, otherId]
+    );
 };

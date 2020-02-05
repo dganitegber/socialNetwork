@@ -1,6 +1,7 @@
 $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
 
 .registrationfields {
     display: flex;
@@ -201,4 +202,60 @@ $gray: #9b9b9b;
 .profilbio {
     display: flex;
     flex-direction: row;
+}
+.profilbio > div {
+    width: 100%;
+}
+
+.latestUsers {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.latestUsers > img {
+    max-width: 200px;
+}
+.a {
+    color: #e7484f;
+}
+.b {
+    color: #f68b1d;
+}
+.c {
+    color: #fced00;
+}
+.d {
+    color: #009e4f;
+}
+.e {
+    color: #00aac3;
+}
+.f {
+    color: #732982;
+}
+.addFriend:hover {
+    background-image: linear-gradient(
+        to right,
+        #e7484f,
+        #f68b1d,
+        #fced00,
+        #009e4f,
+        #00aac3,
+        #732982
+    );
+    animation: slidebg 2s linear infinite;
+}
+@keyframes slidebg {
+    to {
+        background-position: 20vw;
+    }
+}
+.addFriend {
+    background-color: #343a40;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-color: transparent;
 }

@@ -6,31 +6,35 @@
 //upon registeration make axios post request with the fields. the server will respond with success or failure, if fail - error message.
 //regis component should be class for this reason.a class with state.
 // after registration/logged in - user can not see welcome component anymore
-
-const express = require("express");
-const app = express();
-const aws = require("aws-sdk");
-const { s3Url } = require("./config");
-const s3 = require("./s3");
+const cryptoRandomString = require("crypto-random-string");
+const cookieSession = require("cookie-session");
 const compression = require("compression");
+const { s3Url } = require("./config");
+const { hash } = require("./bcrypt");
+const uidSafe = require("uid-safe");
+const express = require("express");
+const bcrypt = require("./bcrypt");
 const helmet = require("helmet");
+const multer = require("multer");
+const aws = require("aws-sdk");
+const s3 = require("./s3");
+const app = express();
+
 const {
-    addUser,
-    findPassword,
+    getUsersByTyping,
     findIdByEmail,
-    storeCode,
-    getCode,
-    newPassword,
+    getFriendship,
+    getLastUsers,
+    findPassword,
     userDetails,
+    newPassword,
+    storeCode,
     logImages,
+    addFriend,
+    addUser,
+    getCode,
     logBio
 } = require("./db");
-const cookieSession = require("cookie-session");
-const { hash } = require("./bcrypt");
-const bcrypt = require("./bcrypt");
-const cryptoRandomString = require("crypto-random-string");
-const multer = require("multer");
-const uidSafe = require("uid-safe");
 const path = require("path");
 
 const diskStorage = multer.diskStorage({
@@ -310,7 +314,7 @@ app.get("/user", (req, res) => {
 app.get("/otheruser/:id", (req, res) => {
     console.log("************get OTHER USER*****************");
     // var body = req.body;
-    console.log("req.params.id", req.params.id);
+    console.log("req.params.id", req.params.id, "req.session", req.session);
     userDetails(req.params.id)
         .then(results => {
             console.log(results.rows[0]);
@@ -368,6 +372,54 @@ app.get("/api/user/:id", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
     }
+});
+
+app.get("/getLastUsers.json", (req, res) => {
+    console.log("*****************GET LAST USERS*******************");
+    // console.log(req);
+    getLastUsers()
+        .then(data => {
+            // console.log(data);
+            res.json(data.rows);
+        })
+        .catch(err => console.log(err));
+});
+
+app.get("/getinput/:user.json", (req, res) => {
+    console.log("*****************GET input*******************");
+    getUsersByTyping(req.params.user)
+        .then(data => {
+            console.log("Data from getUsersbytyping", data);
+            res.json(data);
+        })
+        .catch(err => console.log(err));
+});
+
+app.get("/friendsStatus/:id", (req, res) => {
+    console.log("******get button*****");
+    console.log("req.session", req.session, "req.params.id", req.params.id);
+    getFriendship(req.session.userId, req.params.id).then(data => {
+        console.log("Data from getUsersbytyping", data.rows);
+        res.json(data.rows);
+    });
+});
+
+app.get("/friendsStatusReverse/:id", (req, res) => {
+    console.log("******get reverse*****");
+    console.log("req.session", req.session, "req.params.id", req.params.id);
+    getFriendship(req.params.id, req.session.userId).then(data => {
+        console.log("Data from button", data.rows);
+        res.json(data.rows);
+    });
+});
+
+app.post("/addfriend/:id", (req, res) => {
+    console.log("******add friend*****");
+    console.log("req.session", req.session, "req.params.id", req.params.id);
+    addFriend(req.session.userId, req.params.id).then(data => {
+        console.log("Data from getUsersbytyping", data.rows);
+        res.json(data.rows);
+    });
 });
 
 app.get("*", function(req, res) {

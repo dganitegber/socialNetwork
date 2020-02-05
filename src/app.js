@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import { OtherProfile } from "./other-profile";
+import Search from "./search";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -48,6 +49,7 @@ export default class App extends React.Component {
                         <p className="welcome">
                             Welcome back, {this.state.first}!
                         </p>
+
                         <img
                             className="profileSmall"
                             src={this.state.picture_url}
@@ -78,6 +80,8 @@ export default class App extends React.Component {
                             path="/user/:id"
                             component={OtherProfile}
                         />
+
+                        <Route exact path="/usersearch/" component={Search} />
                     </div>
                     {this.state.uploaderVisible && (
                         <Uploader updateImgUrl={this.updateImgUrl} />

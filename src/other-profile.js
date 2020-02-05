@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "./axios";
 import ProfilePic from "./profilepic";
+import NewFriends from "./newFriends";
+
 // import BioEditor from "./BioEditor";
 
 export class OtherProfile extends React.Component {
@@ -15,9 +17,10 @@ export class OtherProfile extends React.Component {
             .then(({ data }) => {
                 console.log("res.data", data);
                 this.setState(data);
-                console.log(this.state);
+                console.log(this.state.userId);
             });
     }
+
     //here we want to make a request to the server to get all the info about  the user with with the clicked numer.
     //we want the server to send back all info about requested user and the id of the currently logged in user. if these are the smae, we need to redirectd //them back to the /
 
@@ -44,6 +47,10 @@ export class OtherProfile extends React.Component {
                             clickHandler={this.state.clickHandler}
                         />
                         <div className="thisUserBio">{this.state.bio}</div>
+                        <NewFriends
+                            otherUserId={this.props.match.params.id}
+                            id={this.state.id}
+                        />
                     </div>
                 </div>
             </div>
