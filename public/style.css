@@ -234,7 +234,7 @@ $gray: #9b9b9b;
 .f {
     color: #732982;
 }
-.addFriend:hover {
+.addFriend:hover:enabled {
     background-image: linear-gradient(
         to right,
         #e7484f,
@@ -244,7 +244,7 @@ $gray: #9b9b9b;
         #00aac3,
         #732982
     );
-    animation: slidebg 2s linear infinite;
+    animation: slidebg 2s linear;
 }
 @keyframes slidebg {
     to {
@@ -252,10 +252,17 @@ $gray: #9b9b9b;
     }
 }
 .addFriend {
-    background-color: #343a40;
+    background-color: #ab60ba;
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
     padding: 8px 16px;
+    /* background: none; */
+    outline: solid;
     border-color: transparent;
+
+    /* border-color: #ab60ba; */
+}
+.addFriend:disabled {
+    background-color: rgb(191, 170, 179);
 }

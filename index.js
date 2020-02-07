@@ -21,7 +21,9 @@ const s3 = require("./s3");
 const app = express();
 
 const {
+    acceptFriendRequest,
     getUsersByTyping,
+    deleteFriendship,
     findIdByEmail,
     getFriendship,
     getLastUsers,
@@ -399,25 +401,43 @@ app.get("/friendsStatus/:id", (req, res) => {
     console.log("******get button*****");
     console.log("req.session", req.session, "req.params.id", req.params.id);
     getFriendship(req.session.userId, req.params.id).then(data => {
-        console.log("Data from getUsersbytyping", data.rows);
-        res.json(data.rows);
-    });
-});
-
-app.get("/friendsStatusReverse/:id", (req, res) => {
-    console.log("******get reverse*****");
-    console.log("req.session", req.session, "req.params.id", req.params.id);
-    getFriendship(req.params.id, req.session.userId).then(data => {
-        console.log("Data from button", data.rows);
-        res.json(data.rows);
+        console.log("return data from getFriendship", data);
+        res.json(data);
     });
 });
 
 app.post("/addfriend/:id", (req, res) => {
     console.log("******add friend*****");
-    console.log("req.session", req.session, "req.params.id", req.params.id);
+    console.log(
+        "req.session this user",
+        req.session,
+        "req.params.id otheruser",
+        req.params.id
+    );
     addFriend(req.session.userId, req.params.id).then(data => {
-        console.log("Data from getUsersbytyping", data.rows);
+        console.log("Data from getUsersbytyping", data);
+        res.json(data);
+    });
+});
+
+app.post("/acceptfriends/:id", (req, res) => {
+    console.log("******accept friends*****");
+    console.log(
+        "req.session",
+        req.session.userId,
+        "req.params.id",
+        req.params.id
+    );
+    acceptFriendRequest(req.session.userId, req.params.id).then(data => {
+        console.log("data. from acceptfriends", data.rows);
+        res.json(data.rows);
+    });
+});
+
+app.post("/removefriend/:id", (req, res) => {
+    console.log("**********remove friends**************");
+    deleteFriendship(req.session.userId, req.params.id).then(data => {
+        console.log("data. from acceptfriends", data.rows);
         res.json(data.rows);
     });
 });

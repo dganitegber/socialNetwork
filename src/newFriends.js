@@ -9,48 +9,83 @@ export default class NewFriends extends React.Component {
     }
 
     componentDidMount() {
-        console.log("this statge: ", this.props);
         axios
             .get("/friendsStatus/" + this.props.otherUserId)
-            // this.props.match.params.id)
             .then(({ data }) => {
-                // this.setState(data);
-                if (data.length === 0) {
-                    console.log("im in 1st if");
-                    axios
-                        .get("/friendsStatusReverse/" + this.props.otherUserId)
-                        .then(({ data }) => {
-                            if (data.length === 0) {
-                                console.log("im in  if");
-                                this.setState({ Text: "Add Friend" });
-                            } else {
-                                console.log("im in else");
-                                this.setState({
-                                    Text: "Accept friend request"
-                                });
-                            }
-                        });
+                if (data.accepted === true) {
+                    console.log("im in the first");
+                    this.setState({
+                        Text: "Remove Friend"
+                    });
+                } else if (data.rows.length === 0) {
+                    console.log("data", data);
+
+                    this.setState({
+                        Text: "Add Friend"
+                    });
+
+                    // this.props.match.params.id)
                 } else {
-                    console.log("im in big else");
-                    this.setState({ Text: "Friend request sent" });
+                    if (this.props.otherUserId === data.rows[0].asked_by) {
+                        console.log("i'm in the first", this.props.otherUserId);
+                        this.setState({
+                            Text: "Accept friend request"
+                        });
+                    } else {
+                        console.log("i'm in the second");
+                        console.log(
+                            data,
+                            "my id",
+                            this.props.id,
+                            "asked to",
+                            data.rows[0].asked_to,
+                            "other user",
+                            this.props.otherUserId,
+                            "asked by",
+                            data.rows[0].asked_by
+                        );
+
+                        this.setState({
+                            Text: "Friend request sent",
+                            disabled: true
+                        });
+                    }
                 }
-            })
-            .then(() => console.log("this statge: ", this.state));
+            });
     }
 
-    makeFriend() {
+    handleClick() {
         console.log("i want friends");
-        axios.post("/addfriend/" + this.props.otherUserId).then(({ data }) => {
-            this.setState(data);
-            this.setState({ Text: "Friend request sent" });
-            console.log(this.state);
-        });
+        if (this.state.Text === "Accept friend request") {
+            console.log("im in one");
+            axios
+                .post("/acceptfriends/" + this.props.otherUserId)
+                .then(({ data }) => {
+                    console.log(data[0].accepted);
+                });
+        } else if (this.state.Text === "Add Friend") {
+            console.log("im in two");
+            axios
+                .post("/addfriend/" + this.props.otherUserId)
+                .then(({ data }) => {
+                    this.setState(data);
+                    this.setState({
+                        Text: "Friend request sent",
+                        disabled: true
+                    });
+                    console.log(this.state);
+                });
+        }
     }
 
     render() {
         return (
             <div>
-                <button onClick={e => this.makeFriend(e)} className="addFriend">
+                <button
+                    onClick={e => this.handleClick(e)}
+                    className="addFriend"
+                    disabled={this.state.disabled}
+                >
                     {this.state.Text}
                 </button>
             </div>

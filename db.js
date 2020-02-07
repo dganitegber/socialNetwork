@@ -6,11 +6,15 @@
 //
 // );
 //
-// CREATE TABLE friends(
-//     asked_by VARCHAR NOT NULL,
-//     asked_to VARCHAR NOT NULL,
-//     recieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 //
+// CREATE TABLE friends(
+//   id SERIAL PRIMARY KEY,
+//   asked_by INT REFERENCES users(id) NOT NULL,
+//   asked_to INT REFERENCES users(id) NOT NULL,
+//   accepted BOOLEAN DEFAULT false
+// );
+
 // )
 
 const spicedPg = require("spiced-pg");
@@ -89,7 +93,7 @@ exports.getUsersByTyping = function(val) {
 };
 exports.getFriendship = function(userId, otherId) {
     return db.query(
-        "SELECT recieved_at FROM friends where asked_by=$1 AND asked_to = $2",
+        `SELECT * FROM friends WHERE (asked_to = $1 AND asked_by = $2) OR (asked_to = $2 AND asked_by = $1)`,
         [userId, otherId]
     );
 };
@@ -98,5 +102,19 @@ exports.addFriend = function(userId, otherId) {
     return db.query(
         "INSERT INTO friends (asked_by, asked_to) VALUES ($1, $2) RETURNING asked_by",
         [userId, otherId]
+    );
+};
+
+exports.acceptFriendRequest = function(recipient_id, sender_id) {
+    return db.query(
+        `UPDATE friends SET accepted = true WHERE (asked_to = $1 AND asked_by = $2) RETURNING accepted`,
+        [recipient_id, sender_id]
+    );
+};
+
+exports.deleteFriendship = function(sender_id, recipient_id) {
+    return db.query(
+        `DELETE FROM friendships WHERE (asked_to = $1 AND asked_by = $2) OR (asked_to = $2 AND asked_by = $1);`,
+        [sender_id, recipient_id]
     );
 };
