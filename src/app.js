@@ -1,17 +1,18 @@
 import React from "react";
 import axios from "./axios";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 // import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import { OtherProfile } from "./other-profile";
 import Search from "./search";
+// import Logout from "./logout";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: ""
+            id: "   "
         };
         this.updateImgUrl = this.updateImgUrl.bind(this);
         // this.updateBio = this.updateBio.bind(this);
@@ -49,6 +50,8 @@ export default class App extends React.Component {
                         <p className="welcome">
                             Welcome back, {this.state.first}!
                         </p>
+                        <Link to="/logout">Logout</Link>
+                        <Link to="/usersearch">Find People</Link>
 
                         <img
                             className="profileSmall"
@@ -64,6 +67,7 @@ export default class App extends React.Component {
                                     bio={this.state.bio}
                                     picture_url={this.state.picture_url}
                                     className="largeProfilePic"
+                                    id={this.state.id}
                                     clickHandler={() =>
                                         this.setState({ uploaderVisible: true })
                                     }

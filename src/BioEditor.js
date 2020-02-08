@@ -11,10 +11,10 @@ export default class BioEditor extends React.Component {
         this.postBio = this.postBio.bind(this);
     }
     componentDidMount() {
-        console.log(this.state.picture_url);
-        axios.get("/user").then(({ data }) => this.setState(data));
-        console.log("this.state", this.state);
-        console.log(this.state.bio);
+        axios.get("/user").then(({ data }) => {
+            this.setState(data), console.log("this.data", data);
+            console.log(this.state.bio);
+        });
     }
     handleChange(e) {
         this.setState({

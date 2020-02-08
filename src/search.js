@@ -50,7 +50,6 @@ export default function Search() {
         setUser(target.value);
         console.log("target.value", target.value);
     };
-
     return (
         <div>
             <h1>Search users</h1>
@@ -68,7 +67,11 @@ export default function Search() {
                                     {" "}
                                     {user.first} {user.last}
                                 </p>
-                                <img key={user.profpic} src={user.profpic} />
+                                <img
+                                    key={user.profpic}
+                                    src={user.profpic}
+                                    onError="user.profpic='/profile.png'"
+                                />
                             </Link>
                         </li>
                     );

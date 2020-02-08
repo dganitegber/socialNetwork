@@ -144,6 +144,13 @@ app.post("/register", (req, res) => {
             });
         });
 });
+
+app.get("/logout", (req, res) => {
+    console.log("*************** /logout ***********");
+    req.session = null;
+    res.redirect("/");
+});
+
 app.post("/login", (req, res) => {
     console.log("*************************POST LOGIN*************************");
     var body = req.body;
@@ -281,12 +288,12 @@ app.post("/newpass", (req, res) => {
 app.get("/user", (req, res) => {
     console.log("************get USER*****************");
     // var body = req.body;
-    // var session = req.session;
-    // console.log("session", session);
+    var session = req.session;
+    console.log("session", session);
     userDetails(req.session.userId)
         .then(results => {
-            // console.log(results.rows);
-            // console.log(results.rows[0].profpic);
+            console.log(results.rows);
+            console.log(results.rows[0].profpic);
             if (results.rows[0].profpic === null) {
                 var picture_url;
                 picture_url = "/profile.png";
@@ -420,6 +427,14 @@ app.post("/addfriend/:id", (req, res) => {
     });
 });
 
+app.post("/removefriend/:id", (req, res) => {
+    console.log("******remove friend*****");
+    deleteFriendship(req.session.userId, req.params.id).then(data => {
+        console.log("Data from getUsersbytyping", data);
+        res.json(data);
+    });
+});
+
 app.post("/acceptfriends/:id", (req, res) => {
     console.log("******accept friends*****");
     console.log(
@@ -429,14 +444,6 @@ app.post("/acceptfriends/:id", (req, res) => {
         req.params.id
     );
     acceptFriendRequest(req.session.userId, req.params.id).then(data => {
-        console.log("data. from acceptfriends", data.rows);
-        res.json(data.rows);
-    });
-});
-
-app.post("/removefriend/:id", (req, res) => {
-    console.log("**********remove friends**************");
-    deleteFriendship(req.session.userId, req.params.id).then(data => {
         console.log("data. from acceptfriends", data.rows);
         res.json(data.rows);
     });

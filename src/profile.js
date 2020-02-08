@@ -11,6 +11,7 @@ export default function Profile(props) {
                     className="largeProfilePic"
                     picture_url={props.picture_url}
                     clickHandler={props.clickHandler}
+                    id={props.id}
                 />
             </div>
             <div>

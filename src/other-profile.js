@@ -17,7 +17,7 @@ export class OtherProfile extends React.Component {
             .then(({ data }) => {
                 console.log("res.data", data);
                 this.setState(data);
-                console.log(this.state.userId);
+                // console.log(this.state.userId);
             });
     }
 

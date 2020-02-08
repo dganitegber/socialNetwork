@@ -32,7 +32,7 @@ export default class Resgistration extends React.Component {
 
                     //it worked
                     console.log("it worked");
-                    location.replace("/loggedin");
+                    location.replace("/");
                     console.log("data: ", data);
                 } else {
                     //failure!
