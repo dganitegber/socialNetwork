@@ -211,10 +211,17 @@ $gray: #9b9b9b;
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+    max-width: 200px;
+    width: 200px;
+}
+.profilbio > ul {
+    max-width: 200px;
+    width: 200px;
 }
 
 .latestUsers > img {
-    max-width: 200px;
+    max-width: 100%;
+    width: 100%;
 }
 .a {
     color: #e7484f;
@@ -265,4 +272,8 @@ $gray: #9b9b9b;
 }
 .addFriend:disabled {
     background-color: rgb(191, 170, 179);
+}
+
+.latestUsers > li {
+    max-width: 200px;
 }
