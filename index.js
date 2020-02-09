@@ -21,6 +21,7 @@ const s3 = require("./s3");
 const app = express();
 
 const {
+    getFriendsWannabesAllInOne,
     acceptFriendRequest,
     getUsersByTyping,
     deleteFriendship,
@@ -148,7 +149,9 @@ app.post("/register", (req, res) => {
 app.get("/logout", (req, res) => {
     console.log("*************** /logout ***********");
     req.session = null;
-    res.redirect("/");
+    res.json({
+        success: true
+    });
 });
 
 app.post("/login", (req, res) => {
@@ -328,14 +331,26 @@ app.get("/otheruser/:id", (req, res) => {
         .then(results => {
             console.log(results.rows[0]);
             // console.log("bio", bio);
+            if (results.rows[0].profpic === null) {
+                var picture_url;
+                picture_url = "/profile.png";
+            } else {
+                picture_url = results.rows[0].profpic;
+            }
+            if (results.rows[0].bio === null) {
+                var bio;
+                bio = "";
+            } else {
+                bio = results.rows[0].bio;
+            }
 
             res.json({
                 first: results.rows[0].first,
                 last: results.rows[0].last,
                 id: results.rows[0].id,
                 email: results.rows[0].email,
-                profpic: results.rows[0].profpic,
-                bio: results.rows[0].bio
+                profpic: picture_url,
+                bio: bio
             });
         })
 
@@ -408,7 +423,7 @@ app.get("/friendsStatus/:id", (req, res) => {
     console.log("******get button*****");
     console.log("req.session", req.session, "req.params.id", req.params.id);
     getFriendship(req.session.userId, req.params.id).then(data => {
-        console.log("return data from getFriendship", data);
+        console.log("return data from getFriendship", data.rows[0]);
         res.json(data);
     });
 });
@@ -447,6 +462,18 @@ app.post("/acceptfriends/:id", (req, res) => {
         console.log("data. from acceptfriends", data.rows);
         res.json(data.rows);
     });
+});
+
+app.get("/friendswannabes", (req, res) => {
+    console.log(
+        "************************ GET friends-wannabes***************************************"
+    );
+    getFriendsWannabesAllInOne(req.session.userId)
+        .then(data => {
+            console.log("Data from getfreidnwannabes", data);
+            res.json(data);
+        })
+        .catch(err => console.log(err));
 });
 
 app.get("*", function(req, res) {

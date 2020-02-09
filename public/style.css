@@ -215,14 +215,19 @@ $gray: #9b9b9b;
     width: 200px;
 }
 .profilbio > ul {
-    max-width: 200px;
-    width: 200px;
+    max-width: 100%;
+    width: 100%;
 }
 
 .latestUsers > img {
     max-width: 100%;
     width: 100%;
 }
+.latestUsers > ul {
+    max-width: 100%;
+    width: 100%;
+}
+
 .a {
     color: #e7484f;
 }
@@ -275,5 +280,5 @@ $gray: #9b9b9b;
 }
 
 .latestUsers > li {
-    max-width: 200px;
+    max-width: 100%;
 }

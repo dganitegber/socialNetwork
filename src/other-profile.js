@@ -15,14 +15,13 @@ export class OtherProfile extends React.Component {
         axios
             .get("/otheruser/" + this.props.match.params.id)
             .then(({ data }) => {
-                console.log("res.data", data);
+                console.log(this.props.match.params.id);
                 this.setState(data);
-                // console.log(this.state.userId);
             });
     }
 
     //here we want to make a request to the server to get all the info about  the user with with the clicked numer.
-    //we want the server to send back all info about requested user and the id of the currently logged in user. if these are the smae, we need to redirectd //them back to the /
+    //we want the server to send back al info about requested user and the id of the currently logged in user. if these are the smae, we need to redirectd //them back to the /
 
     //this is a hard coded demo:
     // if (this.props.match.params.od == 6) {
@@ -33,6 +32,7 @@ export class OtherProfile extends React.Component {
     //we also want to redirect if the user doesn't exist.
 
     render() {
+        // console.log(this.props.match.params.id);
         return (
             <div>
                 <h1>
@@ -57,3 +57,23 @@ export class OtherProfile extends React.Component {
         );
     }
 }
+//
+// {
+//     (function() {
+//         if (this.state.profpic == null) {
+//             return (
+//                 <ProfilePic
+//                     className="largeProfilePic"
+//                     picture_url="./profile.png"
+//                     clickHandler={this.state.clickHandler}
+//                 />
+//             );
+//         } else {
+//             <ProfilePic
+//                 className="largeProfilePic"
+//                 picture_url={this.state.profpic}
+//                 clickHandler={this.state.clickHandler}
+//             />;
+//         }
+//     })();
+// }

@@ -6,7 +6,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import { OtherProfile } from "./other-profile";
 import Search from "./search";
-// import Logout from "./logout";
+import Friends from "./friends";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -50,8 +50,8 @@ export default class App extends React.Component {
                         <p className="welcome">
                             Welcome back, {this.state.first}!
                         </p>
-                        <Link to="/logout">Logout</Link>
                         <Link to="/usersearch">Find People</Link>
+                        <Link to="/friends">Friends</Link>
 
                         <img
                             className="profileSmall"
@@ -84,6 +84,7 @@ export default class App extends React.Component {
                             path="/user/:id"
                             component={OtherProfile}
                         />
+                        <Route exact path="/friends" component={Friends} />
 
                         <Route exact path="/usersearch/" component={Search} />
                     </div>
