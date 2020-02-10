@@ -4,11 +4,11 @@ import Welcome from "./Welcome";
 import App from "./App";
 
 //redux Boiler Plate
-import { Provider } from "react-redux";
-
+import { composeWithDevTools } from "redux-devtools-extension"; //allows to use redux devtools
 import { createStore, applyMiddleware } from "redux"; //store IS redux. an object that containt the redux state as well as methods we can use to interact with state.
 import reduxPromise from "redux-promise"; //our action creator can return promises thanks to this line.
-import { composeWithDevTools } from "redux-devtools-extension"; //allows to use redux devtools
+import { Provider } from "react-redux";
+// import * as io from "socket.io-client";
 import reducer from "./reducers";
 
 const store = createStore(
@@ -16,6 +16,12 @@ const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
+
+// io.connect();
+
+// socket.on('hello'. msg=>{
+//     console.log('hello');
+// })
 
 console.log("hi!");
 

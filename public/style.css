@@ -258,6 +258,20 @@ $gray: #9b9b9b;
     );
     animation: slidebg 2s linear;
 }
+
+.button:hover:enabled {
+    background-image: linear-gradient(
+        to right,
+        #e7484f,
+        #f68b1d,
+        #fced00,
+        #009e4f,
+        #00aac3,
+        #732982
+    );
+    animation: slidebg 2s linear;
+}
+
 @keyframes slidebg {
     to {
         background-position: 20vw;
@@ -276,6 +290,22 @@ $gray: #9b9b9b;
     /* border-color: #ab60ba; */
 }
 .addFriend:disabled {
+    background-color: rgb(191, 170, 179);
+}
+
+.button {
+    background-color: #ab60ba;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 16px;
+    /* background: none; */
+    outline: solid;
+    border-color: transparent;
+
+    /* border-color: #ab60ba; */
+}
+.button:disabled {
     background-color: rgb(191, 170, 179);
 }
 

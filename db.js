@@ -114,25 +114,21 @@ exports.acceptFriendRequest = function(recipient_id, sender_id) {
 
 exports.deleteFriendship = function(sender_id, recipient_id) {
     return db.query(
-        `DELETE FROM friends WHERE (asked_to = $1 AND asked_by = $2) OR (asked_to = $2 AND asked_by = $1);`,
+        `DELETE FROM friends WHERE (asked_to = $1 AND asked_by = $2) OR (asked_to = $2 AND asked_by = $1)`,
         [sender_id, recipient_id]
     );
 };
 
 exports.getFriendsWannabesAllInOne = function(asked_to) {
-    return db
-        .query(
-            `SELECT (users.id, users.first, users.last, users.profpic), accepted
+    return db.query(
+        `SELECT users.id, users.first, users.last, users.profpic, friends.accepted
             FROM users
             JOIN friends
             ON (accepted = false AND asked_to = $1 AND asked_by = users.id)
-            OR (accepted = false AND asked_by = $1 AND asked_by = users.id)
+            OR (accepted = false AND asked_by = $1 AND asked_to = users.id)
 
             OR (accepted = true AND asked_to = $1 AND asked_by = users.id)
-            OR (accepted = true AND asked_by = $1 AND asked_to = users.id);`,
-            [asked_to]
-        )
-        .then(({ rows }) => {
-            return rows;
-        });
+            OR (accepted = true AND asked_by = $1 AND asked_to = users.id)`,
+        [asked_to]
+    );
 };

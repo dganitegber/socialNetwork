@@ -6,19 +6,23 @@
 //upon registeration make axios post request with the fields. the server will respond with success or failure, if fail - error message.
 //regis component should be class for this reason.a class with state.
 // after registration/logged in - user can not see welcome component anymore
+//needs to be changes when uploading to heroku
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+// const io = require("socket.io")(server, { origins: "localhost:8080" });
+
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
 const compression = require("compression");
 const { s3Url } = require("./config");
 const { hash } = require("./bcrypt");
 const uidSafe = require("uid-safe");
-const express = require("express");
 const bcrypt = require("./bcrypt");
 const helmet = require("helmet");
 const multer = require("multer");
 const aws = require("aws-sdk");
 const s3 = require("./s3");
-const app = express();
 
 const {
     getFriendsWannabesAllInOne,
@@ -149,9 +153,7 @@ app.post("/register", (req, res) => {
 app.get("/logout", (req, res) => {
     console.log("*************** /logout ***********");
     req.session = null;
-    res.json({
-        success: true
-    });
+    res.redirect("/welcome");
 });
 
 app.post("/login", (req, res) => {
@@ -423,7 +425,7 @@ app.get("/friendsStatus/:id", (req, res) => {
     console.log("******get button*****");
     console.log("req.session", req.session, "req.params.id", req.params.id);
     getFriendship(req.session.userId, req.params.id).then(data => {
-        console.log("return data from getFriendship", data.rows[0]);
+        console.log("return data from getFriendship", data);
         res.json(data);
     });
 });
@@ -459,8 +461,8 @@ app.post("/acceptfriends/:id", (req, res) => {
         req.params.id
     );
     acceptFriendRequest(req.session.userId, req.params.id).then(data => {
-        console.log("data. from acceptfriends", data.rows);
-        res.json(data.rows);
+        console.log("data. from acceptfriends", data);
+        res.json(data);
     });
 });
 
@@ -468,10 +470,13 @@ app.get("/friendswannabes", (req, res) => {
     console.log(
         "************************ GET friends-wannabes***************************************"
     );
+    console.log("req.session.userId", req.session.userId);
     getFriendsWannabesAllInOne(req.session.userId)
+        // console
+        //     .log(req.session.userId)
         .then(data => {
             console.log("Data from getfreidnwannabes", data);
-            res.json(data);
+            res.json(data.rows);
         })
         .catch(err => console.log(err));
 });
@@ -484,6 +489,16 @@ app.get("*", function(req, res) {
     }
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
 });
+
+// io.on("connection", socket => {
+//     console.log(`connection! ${socket.id}`);
+//     socket.on("disconnect", () => {
+//         console.log(`disconnection ${socket.id}`);
+//     });
+//     socket.emit("hello", {
+//         message: "nice to see you"
+//     });
+// });

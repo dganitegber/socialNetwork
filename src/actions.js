@@ -13,8 +13,8 @@ export async function receiveFriendsWannabes() {
 
 export async function acceptFriendRequest(id) {
     console.log("hello from acceptfreidnrequest");
-    console.log("id in accept friedn request", id);
-    await axios.post("/accept-friend-request/" + id);
+    console.log("id in accept friends request", id);
+    await axios.post("/acceptfriends/" + id);
     console.log("after axios");
     return {
         type: "ACCEPT_FRIEND_REQUEST",

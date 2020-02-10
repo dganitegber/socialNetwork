@@ -52,6 +52,7 @@ export default class App extends React.Component {
                         </p>
                         <Link to="/usersearch">Find People</Link>
                         <Link to="/friends">Friends</Link>
+                        <a href="/logout">Logout</a>
 
                         <img
                             className="profileSmall"

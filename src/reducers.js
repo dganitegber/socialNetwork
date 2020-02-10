@@ -26,10 +26,11 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "ACCEPT_FRIEND_REQUEST") {
-        console.log("ACCEPT_FRIEND", action);
+        console.log("ACCEPT_FRIEND", action, "hi from reducer");
         state = {
             ...state,
             friendswannabes: state.friendswannabes.map(person => {
+                console.log("hi from reducer");
                 if (person.id != action.id) {
                     return person;
                 } else {
@@ -43,7 +44,7 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "END_FRIENDSHIP") {
-        console.log("END_FRIENDSHIP", action);
+        console.log("END_FRIENDSHIP", action, "hi from reducer");
         state = {
             ...state,
             friendswannabes: state.friendswannabes.filter(person => {

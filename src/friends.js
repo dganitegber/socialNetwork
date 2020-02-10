@@ -9,8 +9,9 @@ import {
 
 export default function Friends() {
     const dispatch = useDispatch();
-    // const friendswannabes = useSelector(state => state.friendswannabes);//oh here you have to filter if friend or wannabe
+    // const friendswannabes = useSelector(state => state.friendswannabes); //oh here you have to filter if friend or wannabe
     const friends = useSelector(
+        // console.log(friendswannabes),
         state =>
             state.friendswannabes &&
             state.friendswannabes.filter(friends => friends.accepted == true)
@@ -20,6 +21,8 @@ export default function Friends() {
             state.friendswannabes &&
             state.friendswannabes.filter(wannabes => wannabes.accepted == false)
     );
+    console.log("wannabes", wannabes);
+    console.log("friends", friends);
 
     useEffect(() => {
         dispatch(receiveFriendsWannabes());
@@ -31,22 +34,24 @@ export default function Friends() {
     if (!wannabes) {
         return <div>No wannabes</div>;
     }
-
     return (
         <div>
             <div>
                 <h1>Wannabes</h1>
                 <ul className="display-flex">
-                    {wannabes.map(user => {
+                    {wannabes.map(person => {
                         return (
-                            <li key={user.id}>
-                                <Link className="link" to={`/user/${user.id}`}>
+                            <li key={person.id}>
+                                <Link
+                                    className="link"
+                                    to={`/user/${person.id}`}
+                                >
                                     <div className="other-profile">
                                         <div className="foto-and-name-container">
-                                            <p>{`${user.first} ${user.last}`}</p>
+                                            <p>{`${person.first} ${person.last}`}</p>
                                             <img
                                                 className="profilepic-small"
-                                                src={user.profilepic}
+                                                src={person.profpic}
                                             />
                                         </div>
                                     </div>
@@ -55,11 +60,11 @@ export default function Friends() {
                                     <button
                                         onClick={() =>
                                             dispatch(
-                                                acceptFriendRequest(user.id)
+                                                acceptFriendRequest(person.id)
                                             )
                                         }
                                         name="button"
-                                        className="addFriend"
+                                        className="button"
                                     >
                                         Accept Friend Request
                                     </button>
@@ -90,7 +95,7 @@ export default function Friends() {
                                             <p>{`${person.first} ${person.last}`}</p>
                                             <img
                                                 className="profilepic-small"
-                                                src={person.profilepic}
+                                                src={person.profpic}
                                             />
                                         </div>
                                     </div>
@@ -101,7 +106,7 @@ export default function Friends() {
                                             dispatch(endFriendship(person.id))
                                         }
                                         name="button"
-                                        className="addFriend"
+                                        className="button"
                                     >
                                         End Friednship
                                     </button>
