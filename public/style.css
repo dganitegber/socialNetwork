@@ -186,7 +186,7 @@ $gray: #9b9b9b;
     top: 50%;
     left: 50%;
     font-size: 100%;
-    flexz-index: 2;
+    flex-index: 2;
 }
 
 .modalUploader {
@@ -380,6 +380,10 @@ $gray: #9b9b9b;
     max-height: 300px;
 }
 
+.profilepic-small {
+    max-width: 300px;
+    max-height: 300px;
+}
 .submit {
     color: var(--color);
     transition: 0.25s;
