@@ -494,9 +494,10 @@ app.get("*", function(req, res) {
     }
 });
 
-server.listen(8080, function() {
+server.listen(process.env.PORT || 8080, function() {
     console.log("I'm listening.");
 });
+
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
     if (!socket.request.session.userId) {
