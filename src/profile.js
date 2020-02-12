@@ -10,6 +10,8 @@ export default function Profile(props) {
                 <ProfilePic
                     className="largeProfilePic"
                     picture_url={props.picture_url}
+                    first={props.first}
+                    last={props.last}
                     clickHandler={props.clickHandler}
                     id={props.id}
                 />

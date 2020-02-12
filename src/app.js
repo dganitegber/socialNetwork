@@ -9,7 +9,6 @@ import Search from "./search";
 import Friends from "./friends";
 import { Chat } from "./chat";
 
-var thisUser = "";
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +32,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
-            (thisUser = this.state.id), this.setState(data);
+            this.setState(data);
         });
     }
 
@@ -80,6 +79,8 @@ export default class App extends React.Component {
                                     picture_url={this.state.picture_url}
                                     className="largeProfilePic"
                                     id={this.state.id}
+                                    first={this.state.first}
+                                    last={this.state.last}
                                     clickHandler={() =>
                                         this.setState({ uploaderVisible: true })
                                     }

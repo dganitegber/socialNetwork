@@ -75,6 +75,7 @@ export default function Search() {
                                             <img
                                                 key={user.profpic}
                                                 src="./profile.png"
+                                                className="searchProf"
                                             />
                                         );
                                     } else {
