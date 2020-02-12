@@ -10,9 +10,8 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-const io = require("socket.io")(server, {
-    origins: "localhost:8080 https://dganit-sn.herokuapp.com/*"
-});
+const io = require("socket.io").listen(server);
+
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
 const compression = require("compression");
