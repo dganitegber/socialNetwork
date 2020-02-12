@@ -11,7 +11,7 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
-    origins: "localhost:8080 || https://dganit-sn.herokuapp.com/"
+    origins: "localhost:8080 https://dganit-sn.herokuapp.com/*"
 });
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
