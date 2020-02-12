@@ -51,7 +51,7 @@ export default class BioEditor extends React.Component {
                     {
                         (!this.props.bio,
                         this.state.bioEditorVisible === true && (
-                            <form>
+                            <div>
                                 <p>Tell us something about yourself</p>
                                 <textarea
                                     onChange={e => this.handleChange(e)}
@@ -61,11 +61,14 @@ export default class BioEditor extends React.Component {
                                     placeholder={this.state.bio}
                                 />
 
-                                <submit onClick={e => this.postBio(e)}>
+                                <button
+                                    className="submit"
+                                    onClick={e => this.postBio(e)}
+                                >
                                     {" "}
                                     submit{" "}
-                                </submit>
-                            </form>
+                                </button>
+                            </div>
                         ))
                     }{" "}
                 </div>

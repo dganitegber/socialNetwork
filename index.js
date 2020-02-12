@@ -10,7 +10,7 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 const cryptoRandomString = require("crypto-random-string");
 const cookieSession = require("cookie-session");
@@ -26,7 +26,9 @@ const s3 = require("./s3");
 
 const {
     getFriendsWannabesAllInOne,
+    extractLastMessages,
     acceptFriendRequest,
+    insertMessageToDB,
     getUsersByTyping,
     deleteFriendship,
     findIdByEmail,
@@ -84,12 +86,15 @@ app.use(
 
 app.use(helmet());
 app.use(express.static("./public"));
-app.use(
-    cookieSession({
-        secret: "everything is garbage",
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
 app.use(compression());
 
 // app.use(csurf());
@@ -491,6 +496,41 @@ app.get("*", function(req, res) {
 
 server.listen(8080, function() {
     console.log("I'm listening.");
+});
+io.on("connection", function(socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    extractLastMessages().then(data => {
+        console.log("data.rows", data.rows);
+        io.sockets.emit("chatMessages", data.rows.reverse());
+        // res.json(data);
+    });
+    // const userId = socket.request.session.userId;
+    socket.on("my amazing message", msg => {
+        console.log("on the server...", msg, socket.request.session.userId);
+        insertMessageToDB(socket.request.session.userId, msg)
+            .then(() => {
+                extractLastMessages().then(data => {
+                    console.log("data.rows changed", data.rows);
+                    io.sockets.emit("chatMessage", data.rows.reverse());
+                    // res.json(data);
+                });
+            })
+
+            .catch(err => console.log(err));
+        //no emit msg to everyone
+        io.sockets.emit("muffin", msg);
+    });
+
+    /* go and get  the last 10  chat messages from DB (we need a new DB table and query.
+        dg.getLastTenChatMessages().then(data =>{ io.sockets.emit('chatMessages', data.rows)
+
+    }).catch err => console.log(err);
+
+
+     */
 });
 
 // io.on("connection", socket => {

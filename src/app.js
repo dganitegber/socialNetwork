@@ -7,6 +7,7 @@ import Profile from "./profile";
 import { OtherProfile } from "./other-profile";
 import Search from "./search";
 import Friends from "./friends";
+import { Chat } from "./chat";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -46,12 +47,19 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <div>
                     <div className="topBar">
-                        <img className="logotop" src="/logo.png" alt="Logo" />
+                        <Link to="/">
+                            <img
+                                className="logotop"
+                                src="/logo.png"
+                                alt="Logo"
+                            />
+                        </Link>
                         <p className="welcome">
                             Welcome back, {this.state.first}!
                         </p>
                         <Link to="/usersearch">Find People</Link>
                         <Link to="/friends">Friends</Link>
+                        <Link to="/chat">Chat</Link>
                         <a href="/logout">Logout</a>
 
                         <img
@@ -86,6 +94,7 @@ export default class App extends React.Component {
                             component={OtherProfile}
                         />
                         <Route exact path="/friends" component={Friends} />
+                        <Route exact path="/chat" component={Chat} />
 
                         <Route exact path="/usersearch/" component={Search} />
                     </div>

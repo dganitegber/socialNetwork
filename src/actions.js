@@ -29,3 +29,19 @@ export async function endFriendship(id) {
         id
     };
 }
+
+export function chatMessage(msg) {
+    console.log("hello from actions", msg);
+    return {
+        type: "CHAT_MESSAGE",
+        content: msg
+    };
+}
+
+export async function chatMessages(msg) {
+    console.log("hello from actions", msg);
+    return {
+        type: "CHAT_MESSAGES",
+        content: msg
+    };
+}

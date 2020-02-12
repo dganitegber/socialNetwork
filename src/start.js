@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./Welcome";
 import App from "./App";
+import { init } from "./socket.js";
 
 //redux Boiler Plate
 import { composeWithDevTools } from "redux-devtools-extension"; //allows to use redux devtools
@@ -30,6 +31,7 @@ if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
     // elem = <img src="guinea.jpg"></img>; //change this later so they see more
+    init(store);
     elem = (
         <Provider store={store}>
             <App />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import NewFriends from "./newFriends";
+// import NewFriends from "./newFriends";
 
 export default function Search() {
     // const [greetee, setGreetee] = useState("World");
@@ -80,6 +80,7 @@ export default function Search() {
                                     } else {
                                         return (
                                             <img
+                                                className="searchProf"
                                                 key={user.profpic}
                                                 src={user.profpic}
                                             />

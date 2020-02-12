@@ -1,7 +1,7 @@
 // DROP TABLE IS EXISTS passcodes
 // CREATE TABLE passcode(
 //     code VARCHAR NOT NULL UNIQUE CHECK (code !=''),
-//     email VARCHAR NOT NULL CHECK (email != '')
+//     email VARCHAR NOT NULL CHECK (email != ''),
 //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 //
 // );
@@ -14,7 +14,22 @@
 //   asked_to INT REFERENCES users(id) NOT NULL,
 //   accepted BOOLEAN DEFAULT false
 // );
-
+// CREATE TABLE users(
+//   id SERIAL PRIMARY KEY UNIQUE,
+//   first VARCHAR NOT NULL,
+//   last VARCHAR NOT NULL,
+//   email VARCHAR NOT NULL,
+//   password VARCHAR NOT NULL,
+//   profpic VARCHAR,
+//   bio VARCHAR
+// );
+// CREATE TABLE chat(
+//   id SERIAL PRIMARY KEY,
+//   sent_by INT REFERENCES users(id),
+//   msg VARCHAR NOT NULL,
+//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+//
+// // // );
 // )
 
 const spicedPg = require("spiced-pg");
@@ -130,5 +145,18 @@ exports.getFriendsWannabesAllInOne = function(asked_to) {
             OR (accepted = true AND asked_to = $1 AND asked_by = users.id)
             OR (accepted = true AND asked_by = $1 AND asked_to = users.id)`,
         [asked_to]
+    );
+};
+
+exports.insertMessageToDB = function(userId, msg) {
+    return db.query(
+        "INSERT INTO chat (sent_by, msg) VALUES ($1, $2) RETURNING msg",
+        [userId, msg]
+    );
+};
+
+exports.extractLastMessages = function() {
+    return db.query(
+        "SELECT users.profpic, users.first, users.last, chat.msg, chat.sent_by, chat.id, chat.created_at FROM users JOIN chat ON chat.sent_by=users.id ORDER BY chat.id DESC LIMIT 10"
     );
 };

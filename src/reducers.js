@@ -56,6 +56,23 @@ export default function reducer(state = {}, action) {
             })
         };
     }
+    if (action.type === "CHAT_MESSAGES") {
+        console.log("CHAT_MESSAGES", action, "hi from reducer");
+        state = {
+            ...state,
+            chatMessages: action.content
+        };
+        console.log("chatMessages", state.chatMessages);
+    }
+
+    if (action.type === "CHAT_MESSAGE") {
+        console.log("CHAT_MESSAGE", action, "hi from reducer");
+        state = {
+            ...state,
+            chatMessages: state.chatMessages.concat(action.content)
+        };
+        console.log("chatMessage", state.chatMessage);
+    }
 
     //
     return state;
