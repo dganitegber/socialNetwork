@@ -9,11 +9,12 @@ import Search from "./search";
 import Friends from "./friends";
 import { Chat } from "./chat";
 
+var thisUser = "";
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: "   "
+            id: ""
         };
         this.updateImgUrl = this.updateImgUrl.bind(this);
         // this.updateBio = this.updateBio.bind(this);
@@ -31,7 +32,9 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/user").then(({ data }) => this.setState(data));
+        axios.get("/user").then(({ data }) => {
+            (thisUser = this.state.id), this.setState(data);
+        });
     }
 
     updateImgUrl(img) {

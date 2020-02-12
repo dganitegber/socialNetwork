@@ -12,11 +12,16 @@ export class OtherProfile extends React.Component {
     }
 
     componentDidMount() {
+        console.log("props", this.props.id);
         axios
             .get("/otheruser/" + this.props.match.params.id)
             .then(({ data }) => {
-                console.log(this.props.match.params.id);
-                this.setState(data);
+                console.log("data", data.loggedUser, data.id);
+                if (data.loggedUser == data.id) {
+                    this.props.history.push("/");
+                } else {
+                    this.setState(data);
+                }
             });
     }
 
@@ -32,12 +37,14 @@ export class OtherProfile extends React.Component {
     //we also want to redirect if the user doesn't exist.
 
     render() {
-        // console.log(this.props.match.params.id);
+        if (this.state.id == this.props.match.params.id) {
+            console.log("hi im here");
+        }
         return (
             <div>
                 <h1>
                     {" "}
-                    {this.state.first} {this.state.last}.
+                    {this.state.first} {this.state.last}
                 </h1>
                 <div className="profile">
                     <div className="profileContainer">
@@ -47,10 +54,13 @@ export class OtherProfile extends React.Component {
                             clickHandler={this.state.clickHandler}
                         />
                         <div className="thisUserBio">{this.state.bio}</div>
-                        <NewFriends
-                            otherUserId={this.props.match.params.id}
-                            id={this.state.id}
-                        />
+
+                        {this.state.id == this.props.match.params.id && (
+                            <NewFriends
+                                otherUserId={this.props.match.params.id}
+                                id={this.state.id}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

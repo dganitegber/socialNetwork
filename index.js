@@ -336,7 +336,7 @@ app.get("/otheruser/:id", (req, res) => {
     console.log("req.params.id", req.params.id, "req.session", req.session);
     userDetails(req.params.id)
         .then(results => {
-            console.log(results.rows[0]);
+            console.log("req.session", req.session);
             // console.log("bio", bio);
             if (results.rows[0].profpic === null) {
                 var picture_url;
@@ -357,7 +357,8 @@ app.get("/otheruser/:id", (req, res) => {
                 id: results.rows[0].id,
                 email: results.rows[0].email,
                 profpic: picture_url,
-                bio: bio
+                bio: bio,
+                loggedUser: req.session.userId
             });
         })
 
