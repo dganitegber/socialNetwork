@@ -140,7 +140,6 @@ exports.getFriendsWannabesAllInOne = function(asked_to) {
             FROM users
             JOIN friends
             ON (accepted = false AND asked_to = $1 AND asked_by = users.id)
-            OR (accepted = false AND asked_by = $1 AND asked_to = users.id)
 
             OR (accepted = true AND asked_to = $1 AND asked_by = users.id)
             OR (accepted = true AND asked_by = $1 AND asked_to = users.id)`,
