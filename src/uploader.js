@@ -14,8 +14,7 @@ export default class Uploader extends React.Component {
         this.setState({
             file: e.target.files[0]
         });
-        console.log(this.state);
-        console.log(e.target.files[0]);
+        console.log("this.state", this.state.file.name);
     }
 
     uploadImage(e) {
@@ -37,28 +36,24 @@ export default class Uploader extends React.Component {
     }
 
     render() {
+        var lable = "";
+        if (this.state.file == undefined) {
+            lable = "Select your Photo";
+        } else {
+            lable = this.state.file.name;
+        }
         return (
             <div className="modalUploader">
-                <input
-                    className="uploader"
-                    type="file"
-                    onChange={e => this.fileSelectedHandler(e)}
-                    accept="image/*"
-                    name="file"
-                />
-                <p
-                    className="closeModal"
-                    onClick={() => this.setState({ uploaderVisible: false })}
-                >
-                    x
-                </p>
-                <button
-                    className="uploadButton"
-                    onClick={e => this.uploadImage(e)}
-                >
-                    {" "}
-                    button{" "}
-                </button>
+                <label className="uploaderLabel">
+                    <input
+                        className="uploader"
+                        type="file"
+                        onChange={e => this.fileSelectedHandler(e)}
+                        accept="image/*"
+                        name="file"
+                    />
+                    {lable}
+                </label>
             </div>
         );
     }
