@@ -5,7 +5,7 @@ export default function ProfilePic(props) {
     // const clickHandler = props.clickHandler;
     // const first = props.first;
     // const last = props.last;
-    console.log("props", props);
+    // console.log("props", props);
     return (
         <div className="largeProfilePic">
             <h1>

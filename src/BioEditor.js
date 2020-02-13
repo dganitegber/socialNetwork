@@ -13,7 +13,7 @@ export default class BioEditor extends React.Component {
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             this.setState(data), console.log("this.data", data);
-            console.log(this.state.bio);
+            // console.log(this.state.bio);
         });
     }
     handleChange(e) {
@@ -41,7 +41,7 @@ export default class BioEditor extends React.Component {
     }
 
     render() {
-        console.log("this state", this.state);
+        // console.log("this state", this.state);
         return (
             <div className="bioeditor">
                 {this.state.bioEditorVisible != true && (

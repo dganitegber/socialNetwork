@@ -53,6 +53,12 @@ export default class Uploader extends React.Component {
                         name="file"
                     />
                     {lable}
+                    <button
+                        onClick={e => this.uploadImage(e)}
+                        className="uploadButton"
+                    >
+                        Upload
+                    </button>
                 </label>
             </div>
         );

@@ -4,7 +4,7 @@ import axios from "./axios";
 // }
 export async function receiveFriendsWannabes() {
     const { data } = await axios.get("/friendswannabes");
-    console.log("Data from axios receive friendswannabes", data);
+    // console.log("Data from axios receive friendswannabes", data);
     return {
         type: "RECEIVE_FRIENDS_WANNABES",
         friendswannabes: data
@@ -12,10 +12,10 @@ export async function receiveFriendsWannabes() {
 }
 
 export async function acceptFriendRequest(id) {
-    console.log("hello from acceptfreidnrequest");
-    console.log("id in accept friends request", id);
+    // console.log("hello from acceptfreidnrequest");
+    // console.log("id in accept friends request", id);
     await axios.post("/acceptfriends/" + id);
-    console.log("after axios");
+    // console.log("after axios");
     return {
         type: "ACCEPT_FRIEND_REQUEST",
         id
@@ -31,7 +31,7 @@ export async function endFriendship(id) {
 }
 
 export function chatMessage(msg) {
-    console.log("hello from actions", msg);
+    // console.log("hello from actions", msg);
     return {
         type: "CHAT_MESSAGE",
         content: msg
@@ -39,7 +39,7 @@ export function chatMessage(msg) {
 }
 
 export async function chatMessages(msg) {
-    console.log("hello from actions", msg);
+    // console.log("hello from actions", msg);
     return {
         type: "CHAT_MESSAGES",
         content: msg

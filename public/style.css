@@ -169,25 +169,47 @@ input[type="file"] {
     background: red;
     box-shadow: 0 0 10px #504bff, 0 0 20px #504bff, 0 0 30px #504bff;
     transition: all 2.5s ease;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .uploaderLabel {
     font-size: 24px;
     margin: 6px;
     cursor: pointer;
-    background-color: red;
-    opacity: 50%;
+    background-color: rgb(145, 241, 224);
     height: 300px;
     width: 300px;
     z-index: 10;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .uploadButton {
     position: fixed;
-    top: 50%;
+    background-color: transparent;
+    border: 2px solid black;
+    top: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
+}
+.uploadButton:hover {
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    transform: blinds 3s ease-in-out infinite alternate;
+}
+
+lable + text {
+    align-self: center;
 }
 
 .closeModal {

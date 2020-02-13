@@ -22,7 +22,7 @@ export default function reducer(state = {}, action) {
             ...state,
             friendswannabes: action.friendswannabes
         };
-        console.log("state from reducer: ", state);
+        // console.log("state from reducer: ", state);
     }
 
     if (action.type === "ACCEPT_FRIEND_REQUEST") {
@@ -30,7 +30,7 @@ export default function reducer(state = {}, action) {
         state = {
             ...state,
             friendswannabes: state.friendswannabes.map(person => {
-                console.log("hi from reducer");
+                // console.log("hi from reducer");
                 if (person.id != action.id) {
                     return person;
                 } else {
@@ -44,7 +44,7 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "END_FRIENDSHIP") {
-        console.log("END_FRIENDSHIP", action, "hi from reducer");
+        // console.log("END_FRIENDSHIP", action, "hi from reducer");
         state = {
             ...state,
             friendswannabes: state.friendswannabes.filter(person => {
@@ -57,21 +57,21 @@ export default function reducer(state = {}, action) {
         };
     }
     if (action.type === "CHAT_MESSAGES") {
-        console.log("CHAT_MESSAGES", action, "hi from reducer");
+        // console.log("CHAT_MESSAGES", action, "hi from reducer");
         state = {
             ...state,
             chatMessages: action.content
         };
-        console.log("chatMessages", state.chatMessages);
+        // console.log("chatMessages", state.chatMessages);
     }
 
     if (action.type === "CHAT_MESSAGE") {
-        console.log("CHAT_MESSAGE", action, "hi from reducer");
+        // console.log("CHAT_MESSAGE", action, "hi from reducer");
         state = {
             ...state,
             chatMessages: state.chatMessages.concat(action.content)
         };
-        console.log("chatMessage", state.chatMessage);
+        // console.log("chatMessage", state.chatMessage);
     }
 
     //

@@ -12,11 +12,11 @@ export class OtherProfile extends React.Component {
     }
 
     componentDidMount() {
-        console.log("props", this.props.id);
+        // console.log("props", this.props.id);
         axios
             .get("/otheruser/" + this.props.match.params.id)
             .then(({ data }) => {
-                console.log("data", data.loggedUser, data.id);
+                // console.log("data", data.loggedUser, data.id);
                 if (data.loggedUser == data.id) {
                     this.props.history.push("/");
                 } else {
@@ -38,7 +38,7 @@ export class OtherProfile extends React.Component {
 
     render() {
         if (this.state.id == this.props.match.params.id) {
-            console.log("hi im here");
+            // console.log("hi im here");
         }
         return (
             <div>

@@ -16,12 +16,12 @@ export function Chat() {
         console.log();
     }, [chatMessages, chatMessage]);
     const keyCheck = e => {
-        console.log("which key user presses", e.keyCode);
+        // console.log("which key user presses", e.keyCode);
         if (e.key === "Enter") {
             e.preventDefault();
-            console.log("what user is typing", e.target.value);
+            // console.log("what user is typing", e.target.value);
             console.log(socket);
-            socket.emit("my amazing message", e.target.value);
+            // socket.emit("my amazing message", e.target.value);
             e.target.value = "";
         }
     };

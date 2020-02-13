@@ -159,3 +159,10 @@ exports.extractLastMessages = function() {
         "SELECT users.profpic, users.first, users.last, chat.msg, chat.sent_by, chat.id, chat.created_at FROM users JOIN chat ON chat.sent_by=users.id ORDER BY chat.id DESC LIMIT 10"
     );
 };
+
+exports.getUsersFriends = function(id) {
+    return db.query(
+        "SELECT * FROM friends WHERE (accepted = true AND asked_to = $1) OR (accepted = true AND asked_by = $1) RETURNING id",
+        [id]
+    );
+};
