@@ -31,7 +31,6 @@ const {
     insertMessageToDB,
     getUsersByTyping,
     deleteFriendship,
-    getUsersFriends,
     findIdByEmail,
     getFriendship,
     getLastUsers,
